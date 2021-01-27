@@ -1,7 +1,7 @@
 from controller.database.database import *
 import psycopg2
 import json
-import collections
+
 
 def consultaAluno():
  
@@ -15,19 +15,14 @@ def consultaAluno():
     cursor.execute(query)
 
     rows = cursor.fetchall()
+    
+    tableAttributes = ["id","nome"]
 
-    lista = []
-    for row in rows:
-        data = collections.OrderedDict()
-        data['id'] = row[0]
-        data['nome'] = row[1]
-        lista.append(data)
-
-    Json = json.dumps(lista)
+    data = TrataDados(rows,2,tableAttributes)
 
     cursor.close()
 
-    return Json
+    return data
   
   except(Exception, psycopg2.DatabaseError) as error:
     print(error)

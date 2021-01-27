@@ -1,4 +1,6 @@
 import psycopg2
+import collections
+import json
 
 def DBconnect():
 
@@ -86,3 +88,23 @@ def CriaTabela():
       connection.close()
 
 CriaTabela()
+
+def TrataDados(rows,r_length,tableNameArray):
+
+    lista = []
+
+    for row in rows:
+     
+      data = collections.OrderedDict()
+      
+      for x in row:
+       
+        y = 0
+        
+        while y < r_length:
+          data[tableNameArray[y]] = row[y]
+          y+=1
+
+      lista.append(data)
+    Json = json.dumps(lista)
+    return Json
