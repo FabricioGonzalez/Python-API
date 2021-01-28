@@ -1,6 +1,9 @@
 from controller.wrapper.wrapper import *
 from controller.database.alunos import *
-from flask import request,jsonify
+from controller.database.provas import * 
+from flask_cors import CORS
+
+CORS(app)
 
 @app.route("/",methods=['GET'])
 def ola():
@@ -31,5 +34,18 @@ def deleta_aluno(id):
 def deleta_aluno_por_nome(nome):
   deletaAluno(nome)
   return "deletado"
+
+@app.route("/provas",methods=["GET"])
+def consulta_provas():
+  
+  data = consultaProvas()
+
+  return data
+  
+@app.route("/provas/cadastro",methods=["POST"])
+def cadastra_provas():
+  body = request.get_json()    
+
+  return body
 
 

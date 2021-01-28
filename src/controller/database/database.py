@@ -21,62 +21,83 @@ def CriaTabela():
 
     cursor = connection.cursor()
 
-    query1 = """CREATE TABLE alunos(
-    id_aluno INTEGER NOT NULL,
-    nome VARCHAR(30),
-    PRIMARY KEY(id_aluno)
-    )"""
+    query1 = """Create table alunos(
+    id_aluno INTEGER not null,
+    nome varchar(50),
+    primary key(id_aluno)
+    );"""
 
-    query2 = """CREATE TABLE provas(
-    id_prova INTEGER NOT NULL,
-    materia VARCHAR(30),
-    id_pergunta INTEGER NOT NULL,
-    PRIMARY KEY(id_prova),
-    CONSTRAINT fk_id_pergunta FOREIGN KEY (id_pergunta) REFERENCES perguntas(id_pergunta)
-    )"""
-
-    query3 = """CREATE TABLE respostas(
-      id_resposta INTEGER NOT NULL,
-      
-      id_aluno INTEGER NOT NULL,
-      PRIMARY KEY(id_resposta),
-      CONSTRAINT fk_id_aluno FOREIGN KEY (id_aluno) REFERENCES alunos (id_aluno)
-    )
-    """
-
-    query4 = """CREATE TABLE perguntas(
-      id_pergunta INTEGER NOT NULL,
-      questao1 TEXT,
-      questao2 TEXT,
-      questao3 TEXT,
-      questao4 TEXT,
-      questao5 TEXT,
-      questao6 TEXT,
-      questao7 TEXT,
-      questao8 TEXT,
-      questao9 TEXT,
-      questao10 TEXT,
-      PRIMARY KEY(id_pergunta)
-    )
+    query2 = """Create table provas(
+    id_prova SERIAL not null ,
+    materia varchar(50),
+    primary key(id_prova)
+    );"""
     
-    """
-    query5 = """CREATE TABLE gabaritos(
-      alternativa1 VARCHAR(5),
-      alternativa2 VARCHAR(5),
-      alternativa3 VARCHAR(5),
-      alternativa4 VARCHAR(5),
-      alternativa_certa VARCHAR(5),
-      id_pergunta INTEGER,
-      CONSTRAINT fk_id_pergunta FOREIGN KEY (id_pergunta) REFERENCES perguntas(id_pergunta)
-    )
-    """
+    query3 = """Create table questoes(
+    id_questao SERIAL not null,
+    pergunta Text,
+    id_prova INTEGER not null,
+    primary key(id_questao),
+    CONSTRAINT fk_id_prova FOREIGN KEY (id_prova) REFERENCES provas(id_prova)
+    );"""
 
+    query4 = """Create table alternativas(
+    id_alternativa SERIAL not null,
+    alternativa Text,
+    id_questao INTEGER not null,
+    primary key(id_alternativa),
+    CONSTRAINT fk_id_questao FOREIGN KEY (id_questao) REFERENCES questoes(id_questao)
+    );"""
 
-    cursor.execute(query1)
-    cursor.execute(query3)
-    cursor.execute(query4)
-    cursor.execute(query5)
-    cursor.execute(query2)
+    query5 = """Create table gabaritos(
+    id_resposta_gabarito SERIAL not null,
+    id_prova INTEGER not null,
+    id_questao INTEGER not null,
+    alternativa text,
+    primary key(id_resposta_gabarito),
+    CONSTRAINT fk_id_prova FOREIGN KEY (id_prova) REFERENCES provas(id_prova),
+    CONSTRAINT fk_id_questao FOREIGN KEY (id_questao) REFERENCES questoes(id_questao)
+    );"""
+
+    query6 = """Create table notas(
+    id_aluno INTEGER not null,
+    id_prova INTEGER not null,
+    nota float not null,
+    CONSTRAINT fk_id_prova FOREIGN KEY (id_prova) REFERENCES provas(id_prova),
+    CONSTRAINT fk_id_aluno FOREIGN KEY (id_aluno) REFERENCES alunos(id_aluno)
+    );"""
+
+    query7 = """Create table respostas_alunos(
+    id_resposta_aluno SERIAL not null,
+    id_prova INTEGER not null,
+    id_aluno INTEGER not null,
+    alternativa text,
+    primary key(id_resposta_aluno),
+    CONSTRAINT fk_id_prova FOREIGN KEY (id_prova) REFERENCES provas(id_prova),
+    CONSTRAINT fk_id_aluno FOREIGN KEY (id_aluno) REFERENCES alunos(id_aluno)
+    );"""
+
+    lista = [query1,query2,query3,query4,query5,query6,query7]
+
+    for item in lista:
+
+      query = """SELECT EXISTS(SELECT FROM public
+      WHERE table_name = '{item}')""".format(item = item)
+
+      cursor.execute(query)
+      y = 0
+
+      exists = bool(cursor.fetchone()[y])
+
+      y+=1
+
+      if(exists):
+
+        print("Já existe")
+      
+      else:
+
+        cursor.execute(item)          
 
     connection.commit()
   

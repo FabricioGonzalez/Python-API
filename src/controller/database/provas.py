@@ -15,9 +15,9 @@ def consultaProvas():
 
     rows = cursor.fetchall()
 
-    tableAttributes = ["id_prova", "id_materia", "id_pergunta"]
+    tableAttributes = ["id_prova", ]
 
-    data = TrataDados(rows,3,tableAttributes)
+    data = TrataDados(rows,2,tableAttributes)
 
     return data
   
