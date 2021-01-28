@@ -43,6 +43,7 @@
 
         #### **Estrutura da Requisição**:
           A requisição feita a URL deve ser um Objeto JSON contendo os parâmetros.
+          
           O objeto JSON é enviado no corpo da requisição, e tratado pela API e enviado ao banco de dados.
         
         #### **Parâmetros:**
