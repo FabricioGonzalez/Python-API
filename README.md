@@ -4,19 +4,17 @@
 
   - ### EndPoints
     - #### ***GET alunos***
-        &nbsp;
 
-          Retorna todos os registros existentes de alunos no banco de dados
 
-        &nbsp; 
+          Retorna todos os registros existentes de alunos no banco de dados.
+
+
         #### **URL:** 
         > http://localhost/alunos
-        
-        &nbsp; 
+
 
         #### **Informaçoes Adicionais:**
 
-        &nbsp; 
           
           Formato da Resposta: Json
                   
@@ -25,25 +23,18 @@
         &nbsp;
 
         
-    - #### ***POST alunos***
-          Retorna todos os registros existentes de alunos no banco de dados
-
-        &nbsp; 
+    - #### ***POST alunos/cadastro***
+          Cadastra um aluno no banco de dados.
 
         #### **URL:** 
-        > http://localhost/alunos
+        > http://localhost/alunos/cadastro
         
-        &nbsp; 
-
         #### **Informaçoes Adicionais:**
-
-        &nbsp; 
           
           Formato da Resposta: Json
                   
           Requer Autenticação: Não
 
-        &nbsp;
 
         #### **Parametros:**
 
