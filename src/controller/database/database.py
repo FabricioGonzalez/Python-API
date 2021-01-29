@@ -2,7 +2,7 @@ import psycopg2
 import collections
 import json
 
-def DBconnect():
+def db_connect():
 
   try: 
     
@@ -13,11 +13,11 @@ def DBconnect():
   
   return connection
 
-def CriaTabela():
+def cria_tabela():
   
   try:
     
-    connection = DBconnect()
+    connection = db_connect()
 
     cursor = connection.cursor()
 
@@ -108,7 +108,7 @@ def CriaTabela():
     if connection is not None:
       connection.close()
 
-def TrataDados(rows,r_length,tableNameArray):
+def trata_dados(rows,r_length,table_name_array):
 
     lista = []
 
@@ -121,9 +121,80 @@ def TrataDados(rows,r_length,tableNameArray):
         y = 0
         
         while y < r_length:
-          data[tableNameArray[y]] = row[y]
+          data[table_name_array[y]] = row[y]
           y+=1
 
       lista.append(data)
     Json = json.dumps(lista)
     return Json
+
+def insere_dados(query):
+  
+  try:
+
+    connection = db_connect()
+
+    cursor = connection.cursor()
+
+    tipo = type(query)
+
+    if(tipo == str):
+
+      cursor.execute(query)
+
+      connection.commit()
+    
+    elif(tipo == list):
+      for item in query:
+        cursor.execute(query)
+
+        connection.commit()
+
+    cursor.close()
+
+  except(Exception, psycopg2.DatabaseError)as error:
+    print(error)
+
+  finally:
+    if(connection is not None):
+      connection.close()
+
+def consulta_dados(query):
+  try: 
+    
+    connection = db_connect()
+
+    cursor = connection.cursor()
+
+    cursor.execute(query)
+
+    dados = cursor.fetchall()
+
+    return dados
+
+  except(Exception, psycopg2.DatabaseError)as error:
+    print(error)
+
+  finally:
+    if(connection is not None):
+      connection.close()
+
+def deleta_dados(query):
+   
+  try:
+    connection = db_connect()
+
+    cursor = connection.cursor()
+
+    cursor.execute(query)
+
+    connection.commit()
+
+    cursor.close()
+
+  except(Exception, psycopg2.DatabaseError)as error:
+    print(error)
+
+  finally:
+    if(connection is not None):
+      connection.close()

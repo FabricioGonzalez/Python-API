@@ -1,94 +1,36 @@
-from controller.database.database import *
-import psycopg2
-import json
 
-
-def consultaAluno():
+def consulta_aluno():
  
-  try: 
-    connection = DBconnect()
-
-    cursor = connection.cursor()
-
-    query = """SELECT * FROM alunos"""
-
-    cursor.execute(query)
-
-    rows = cursor.fetchall()
-    
-    tableAttributes = ["id","nome"]
-
-    data = TrataDados(rows,2,tableAttributes)
-
-    cursor.close()
-
-    return data
+  query = """SELECT * FROM alunos"""
   
-  except(Exception, psycopg2.DatabaseError) as error:
-    print(error)
-  
-  finally:
-    if connection is not None:
-      connection.close()
+  return query
 
-
-def deletaAluno(param):
-  
-  try:
-
-    connection = DBconnect()
-
-    cursor = connection.cursor()
+def deleta_aluno(dado):
     
-    data = type(param)
+    tipo = type(dado)
     
-    if(data == int):
+    if(tipo == int):
       
       query = """DELETE FROM alunos 
-      WHERE id_aluno = {data}""".format(data=param)
-
-      cursor.execute(query)
+      WHERE id_aluno = {data}""".format(data=dado)
+      
       print("number")
+      
+      return query
 
-    elif(data == str):
+    elif(tipo == str):
       
       query = """DELETE FROM alunos
-      WHERE nome = '{data}'""".format(data=param)
-      
-      cursor.execute(query)
+      WHERE nome = '{data}'""".format(data=dado)
+
       print("string")
 
-    connection.commit()
+      return query
 
-    cursor.close()
-    print("ok")
-  except(Exception, psycopg2.DatabaseError) as error:
-      print(error) 
-
-  finally:
-    
-    if connection is not None:
-      connection.close()
-
-def cadastraAluno(id,nome):
+def cadastra_aluno(id,nome):
   
-  try:
-    connection = DBconnect()
+  query = """INSERT INTO alunos(id_aluno,nome)
+  VALUES({id_aluno},'{nome_aluno}')""".format(id_aluno=id,nome_aluno=nome)
 
-    cursor = connection.cursor()
-
-    query = """INSERT INTO alunos(id_aluno,nome)
-    VALUES({id_aluno},'{nome_aluno}')""".format(id_aluno=id,nome_aluno=nome)
-
-    cursor.execute(query)
-
-    connection.commit()
-
-    cursor.close()
-
-  except(Exception, psycopg2.DatabaseError)as error:
-    print(error)
-   
-  finally:
-    if connection is not None:
-      connection.close
+  return query
+  
