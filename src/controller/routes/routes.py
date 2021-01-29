@@ -1,6 +1,5 @@
 from controller.wrapper.wrapper import *
-from controller.database.alunos import *
-from controller.database.provas import * 
+from controller.database.index import *
 from flask_cors import CORS
 
 CORS(app)
@@ -10,47 +9,63 @@ def ola():
   return "Olá"
 
 @app.route("/alunos",methods=['GET'])
-def consulta_aluno():
+def endpoint_consulta_aluno():
 
-  data = consultaAluno()
+  query = consulta_aluno()
 
-  return data
+  data = consulta_dados(query)
+
+  dados = trata_dados(data,2,["id_aluno","nome"])
+
+  return jsonify(dados)
 
 @app.route("/alunos/cadastro",methods=['POST'])
-def cadastra_aluno():
+def endpoint_cadastra_aluno():
   
   body= request.get_json()
 
-  cadastraAluno(body["id"],body["nome"])
+  query = cadastra_aluno(body["id"],body["nome"])
+
+  insere_dados(query)
 
   return "{nome},\nCadastrada com sucesso".format(nome=body["nome"])
 
 @app.route("/alunos/delete/<int:id>/",methods=['DELETE'])
-def deleta_aluno(id):
-  deletaAluno(id)
+def endpoint_deleta_aluno(id):
+  
+  query = deleta_aluno(id)
+
+  deleta_dados(query)
+
   return "deletado"
 
 @app.route("/alunos/delete/<string:nome>/",methods=['DELETE'])
-def deleta_aluno_por_nome(nome):
-  deletaAluno(nome)
+def endpoint_deleta_aluno_por_nome(nome):
+  
+  query = deleta_aluno(nome)
+
+  deleta_dados(query)
+
   return "deletado"
 
 @app.route("/alunos/resposta/cadastro",methods=['POST'])
-def cadastra_respostas_de_alunos():
+def endpoint_cadastra_respostas_de_alunos():
 
-  body = requests.get_json()
+  body = request.get_json()
   
-
-
 @app.route("/provas",methods=["GET"])
-def consulta_provas():
+def endpoint_consulta_provas():
   
-  data = consultaProvas()
+  query = consulta_provas()
 
-  return data
+  data = consulta_dados(query)
+
+  dados = trata_dados(data,2,["id_prova","materia"])
+
+  return jsonify(dados)
   
 @app.route("/provas/cadastro",methods=["POST"])
-def cadastra_provas():
+def endpoint_cadastra_provas():
 
   body = request.get_json() 
   
