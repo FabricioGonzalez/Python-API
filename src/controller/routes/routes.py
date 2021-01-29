@@ -35,6 +35,13 @@ def deleta_aluno_por_nome(nome):
   deletaAluno(nome)
   return "deletado"
 
+@app.route("/alunos/resposta/cadastro",methods=['POST'])
+def cadastra_respostas_de_alunos():
+
+  body = requests.get_json()
+  
+
+
 @app.route("/provas",methods=["GET"])
 def consulta_provas():
   
@@ -44,8 +51,11 @@ def consulta_provas():
   
 @app.route("/provas/cadastro",methods=["POST"])
 def cadastra_provas():
-  body = request.get_json()    
 
-  return body
+  body = request.get_json() 
+  
+
+  return jsonify(body)
+
 
 

@@ -81,7 +81,7 @@ def CriaTabela():
 
     for item in lista:
 
-      query = """SELECT EXISTS(SELECT FROM public
+      query = """SELECT EXISTS(SELECT FROM schema.tables
       WHERE table_name = '{item}')""".format(item = item)
 
       cursor.execute(query)
@@ -107,8 +107,6 @@ def CriaTabela():
   finally:
     if connection is not None:
       connection.close()
-
-CriaTabela()
 
 def TrataDados(rows,r_length,tableNameArray):
 
