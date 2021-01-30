@@ -28,9 +28,14 @@ def deleta_aluno(dado):
       return query
 
 def cadastra_aluno(id,nome):
-  
+
   query = """INSERT INTO alunos(id_aluno,nome)
   VALUES({id_aluno},'{nome_aluno}')""".format(id_aluno=id,nome_aluno=nome)
 
   return query
   
+def cadastra_respostas_alunos(id_aluno,id_prova,alternativa):
+
+  query = """INSERT INTO respostas_alunos(id_aluno,id_prova,alternativa) VALUES({id_aluno},{id_prova},'{alternativa}')""".format(id_aluno=id_aluno, id_prova=id_prova,alternativa=alternativa)
+
+  return query

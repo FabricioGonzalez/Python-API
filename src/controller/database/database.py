@@ -13,7 +13,7 @@ def db_connect():
   
   return connection
 
-def cria_tabela():
+def cria_tabelas():
   
   try:
     
@@ -28,7 +28,7 @@ def cria_tabela():
     );"""
 
     query2 = """Create table provas(
-    id_prova SERIAL not null ,
+    id_prova INTEGER not null ,
     materia varchar(50),
     primary key(id_prova)
     );"""
@@ -79,26 +79,27 @@ def cria_tabela():
 
     lista = [query1,query2,query3,query4,query5,query6,query7]
 
-    for item in lista:
+    lista_de_tabelas = ["alunos","provas","questoes","alternativas","gabaritos","notas","respostas_alunos"]
 
-      query = """SELECT EXISTS(SELECT FROM schema.tables
-      WHERE table_name = '{item}')""".format(item = item)
+    i = 0
+
+    while(i < 7):
+      
+      query = """select exists(select * from information_schema.tables where table_name='{item}')""".format(item = lista_de_tabelas[i])
 
       cursor.execute(query)
       y = 0
-
       exists = bool(cursor.fetchone()[y])
-
       y+=1
-
       if(exists):
 
         print("Já existe")
       
       else:
 
-        cursor.execute(item)          
+        cursor.execute(lista[i])   
 
+      i+=1
     connection.commit()
   
   except(Exception, psycopg2.DatabaseError) as error:
