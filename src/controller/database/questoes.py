@@ -5,5 +5,14 @@ def cadastra_questoes(questao,id_prova):
   
   return query
 
-"""def consultaQuestoes(id_prova):"""
+def consulta_questoes(id_prova):
+
+  query = """SELECT questoes.id_questao FROM provas INNER JOIN questoes ON provas.id_prova = questoes.id_prova WHERE questoes.id_prova = {id_prova}""".format(id_prova=id_prova)
   
+  return query
+
+def consulta_questoes_prova(id_prova):
+
+  query = """SELECT questoes.id_questao, questoes.pergunta FROM provas INNER JOIN questoes ON provas.id_prova = questoes.id_prova WHERE questoes.id_prova = {id_prova}""".format(id_prova=id_prova)
+
+  return query
