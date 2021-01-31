@@ -73,7 +73,6 @@ def endpoint_cadastra_respostas_de_alunos():
 
   return body
 
-  
 @app.route("/provas",methods=["GET"])
 def endpoint_consulta_provas():
   
@@ -305,7 +304,20 @@ def endpoint_consulta_notas_finais_alunos():
 
 @app.route("/consulta/notas_finais/aluno/<int:id_aluno>",methods=["GET"])
 def endpoint_consulta_notas_finais_aluno(id_aluno):
+
   query_de_notas = consulta_notas_finais(id_aluno)
+
+  dados_notas = consulta_dados(query_de_notas)
+
+  resultado = trata_dados(dados_notas,2,["id_aluno","nota"])
+
+  response = agente_de_respostas(resultado)
+
+  return response
+
+@app.route("/consulta/notas_finais/alunos_aprovados",methods=["GET"])
+def endpoint_alunos_aprovados():
+  query_de_notas = consulta_notas_finais_aprovados()
 
   dados_notas = consulta_dados(query_de_notas)
 

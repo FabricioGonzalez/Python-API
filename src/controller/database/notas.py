@@ -20,7 +20,12 @@ def consulta_notas_finais(*id_aluno):
 
   return query
 
+def consulta_notas_finais_aprovados():
+  
+  query = """SELECT * FROM notas_finais WHERE nota > 6"""
 
+  return query
+  
 def consulta_notas(*id_aluno):
   
   if(id_aluno):
