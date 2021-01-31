@@ -2,6 +2,20 @@
   > 
   >API para cálculo de nota de alunos
 
+## Como compilar:
+  - Dê um Git clone.
+  
+  - Abra a pasta do projeto.
+
+  - Ative o ambiente virtual env usando o comando (no Windows: env\Scripts\activate.bat),
+  (no Linux ou MacOS: source tenv/bin/activate).
+
+  - Rode o arquivo app.py na pasta src do projeto com o interpretador python.
+
+  - Aí é só testar e ser feliz.
+
+    ***O projeto roda com postgres, configurado para ouvir a porta 4000 do localhost e o banco de dados ouvido pela aplicação se chama "app".***
+
   ### EndPoints
   - #### ***GET alunos***
 
