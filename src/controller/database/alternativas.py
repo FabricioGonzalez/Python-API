@@ -1,13 +1,12 @@
-def cadastra_alternativas(alternativas,id_questao):
- 
-    for alternativa_atual in alternativas:
-
-      query_list = []
+def cadastra_alternativas(alternativa,id_questao):
 
       query = """INSERT INTO alternativas(alternativa, id_questao) 
       VALUES ('{alternativa}', {id_questao})
-      """.format(id_questao = id_questao, alternativa = alternativa_atual)
+      """.format(alternativa = alternativa,id_questao = id_questao)
 
-      query_list.append(query)
+      return query
 
-      return query_list
+def consulta_alternativas(id_questao):
+
+      query = """SELECT alternativa, alternativas.id_questao FROM alternativas INNER JOIN questoes ON questoes.id_questao = alternativas.id_questao WHERE questoes.id_questao = {id_questao}""".format(id_questao=id_questao)
+      return query
